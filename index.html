@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WEBGIS 3D</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/maplibre-gl@5.5.0/dist/maplibre-gl.css"
+    />
+    <script src="https://unpkg.com/maplibre-gl@5.5.0/dist/maplibre-gl.js"></script>
+    <style>
+      #threejs-container {
+        width: 100%;
+        height: 400px; /* tinggi tetap */
+        position: relative;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+    <!-- CDN Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+
+  <body class="font-sans bg-gray-300">
+    <!-- Sidebar Header -->
+    <div
+      id="sidebar"
+      class="fixed top-4 left-4 z-50 w-64 h-[90%] bg-white/30 backdrop-blur-md shadow-2xl rounded-3xl p-6 flex flex-col items-center space-y-6 transition-all duration-500 overflow-hidden"
+    >
+      <!-- Logo -->
+      <div
+        id="logo"
+        class="w-16 h-16 rounded-full shadow-md transition-all duration-500 overflow-hidden p-0"
+      >
+        <img
+          src="assets/logo.jpg"
+          alt="Logo K7"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Navigation Buttons -->
+      <nav
+        id="navMenu"
+        class="flex flex-col w-full space-y-4 transition-all duration-500"
+      >
+        <button
+          onclick="showPage('home')"
+          class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
+        >
+          <svg
+            class="w-5 h-5 text-sky-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4a2 2 0 01-2-2V12H9v8a2 2 0 01-2 2H3a2 2 0 01-2-2V9z"
+            />
+          </svg>
+          <span class="menu-text">Home</span>
+        </button>
+        <button
+          onclick="showPage('geo-ai')"
+          class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
+        >
+          <svg
+            class="w-5 h-5 text-sky-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M9 17v-6h13v6m-6-6V5h-7v6h7zm6 6v-6h-7v6h7z" />
+          </svg>
+          <span class="menu-text">GEO-AI 3D</span>
+        </button>
+        <button
+          onclick="showPage('maps')"
+          class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
+        >
+          <svg
+            class="w-5 h-5 text-sky-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M1 6h2l2 14h12l2-14h2M5 6l2 14m4-14l2 14m4-14l2 14" />
+          </svg>
+          <span class="menu-text">WEBGIS 3D</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Toggle Button -->
+    <button
+      id="toggleSidebarBtn"
+      onclick="toggleSidebar()"
+      class="fixed left-4 top-1/2 transform -translate-y-1/2 z-50 bg-sky-500 hover:bg-sky-600 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+    >
+      <svg
+        id="toggleIcon"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path id="togglePath" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Home Page Content -->
+    <!-- Home Page Content -->
+    <div
+      id="home"
+      class="px-6 md:px-20 py-10 flex flex-col items-center text-center space-y-12"
+    >
+      <!-- Banner atau Cover -->
+      <div class="relative w-full overflow-hidden h-[80vh] md:h-[90vh]">
+        <!-- Gambar background -->
+        <img
+          src="assets/images.jpg"
+          alt="WebGIS3D"
+          class="w-full h-full object-cover filter blur-sm"
+        />
+
+        <!-- Konten di atas gambar -->
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
+        >
+          <!-- Judul Besar -->
+          <h2
+            class="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg"
+          >
+            GeoAI 3D & WebGIS 3D
+          </h2>
+
+          <!-- Tombol Mulai -->
+          <a
+            href="#maps"
+            onclick="showPage('maps')"
+            class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-6 md:py-4 md:px-8 rounded-full text-base md:text-xl transition"
+          >
+            Start Explore WebGIS 3D
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data & Analisis Content -->
+    <div id="geo-ai" class="p-8 hidden space-y-16">
+      <!-- Section: Banner Atas -->
+      <div
+        class="relative max-w-6xl mx-auto bg-gradient-to-r from-indigo-100 via-white to-indigo-100 rounded-3xl shadow-xl overflow-hidden"
+      >
+        <div class="grid md:grid-cols-2 gap-6 items-center p-10">
+          <div class="space-y-4">
+            <h2 class="text-3xl font-extrabold text-sky-700 leading-tight">
+              GEO-AI
+            </h2>
+            <p class="text-gray-700 text-lg">
+              Pemanfataan Geo-AI dalam Pemodelan 3D dengan Algoritma Gaussian
+              Splatting dan Neural Radiance Fields (NeRF)
+            </p>
+          </div>
+          <img src="assets/geoai.jpg" alt="Analisis Ilustrasi" class="w-full" />
+        </div>
+      </div>
+
+      <!-- Section: Tools & Materials -->
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-2xl font-bold text-sky-600 mb-8 text-center">
+          Hasil Pengolahan 3D dengan GEO-AI
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-10">
+          <!-- Threejs Card -->
+          <div
+            class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition flex flex-col items-center space-y-4"
+          >
+            <h4 class="text-xl font-semibold text-sky-600">Nerf</h4>
+            <div id="threejs-container" class="w-full h-[400px]"></div>
+          </div>
+
+          <!-- Materials Card -->
+          <div
+            class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition flex flex-col items-center space-y-4"
+          >
+            <h4 class="text-xl font-semibold text-sky-600">
+              Gaussian splatting
+            </h4>
+            <div id="threejs-container-2" class="w-full h-[400px]"></div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-10 mt-8">
+          <!-- Tools Card -->
+          <div
+            class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition flex flex-col items-center space-y-4"
+          >
+            <h4 class="text-xl font-semibold text-sky-600">Scanivers</h4>
+            <div id="threejs-container-3" class="w-full h-[400px]"></div>
+          </div>
+
+          <!-- Materials Card -->
+          <div
+            class="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition flex flex-col items-center space-y-4"
+          >
+            <h4 class="text-xl font-semibold text-sky-600">LUMA AI</h4>
+            <div id="threejs-container-4" class="w-full h-[400px]"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto text-center space-y-6">
+        <h3 class="text-2xl font-bold text-sky-600">Hasil Analisis Pengolahan</h3>
+        <p class="text-gray-700 max-w-3xl mx-auto">
+          Bisa tulis disini yaaa
+        </p>
+        <img
+          src="assets/geoai.jpg"
+          alt="geoai"
+          class="w-1/2 mx-auto"
+        />
+      </div>
+
+      <!-- Section: Data dan Metode -->
+      <div class="max-w-6xl mx-auto space-y-8">
+        <h3 class="text-2xl font-bold text-sky-600 text-center">
+          Data dan Metode
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Persebaran Fasilitas Kesehatan -->
+          <div
+            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-sky-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9zM8 21h8"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sky-600 font-semibold text-lg mb-2">
+                Persebaran Fasilitas Kesehatan
+              </h4>
+              <p class="text-gray-700 text-sm">
+                Identifikasi lokasi faskes sebagai tujuan utama analisis
+                aksesibilitas.
+              </p>
+            </div>
+          </div>
+
+          <!-- Data Jaringan Jalan -->
+          <div
+            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-sky-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sky-600 font-semibold text-lg mb-2">
+                Data Jaringan Jalan
+              </h4>
+              <p class="text-gray-700 text-sm">
+                Jaringan jalan dikonversi menjadi graph untuk analisis rute
+                terpendek menggunakan algoritma Dijkstra.
+              </p>
+            </div>
+          </div>
+
+          <!-- Populasi Penduduk -->
+          <div
+            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-sky-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 20h5v-2a4 4 0 00-5-4h-1M9 20H4v-2a4 4 0 015-4h1M12 4a4 4 0 11-8 0 4 4 0 018 0zm8 4a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sky-600 font-semibold text-lg mb-2">
+                Populasi Penduduk
+              </h4>
+              <p class="text-gray-700 text-sm">
+                Data populasi digunakan untuk memperhitungkan beban akses jalan
+                dan kapasitas fasilitas kesehatan.
+              </p>
+            </div>
+          </div>
+
+          <!-- Data DEMNAS (Slope) -->
+          <div
+            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-8 h-8 text-sky-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 17l6-6 4 4 8-8"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-sky-600 font-semibold text-lg mb-2">
+                Data DEMNAS (Slope)
+              </h4>
+              <p class="text-gray-700 text-sm">
+                Nilai kemiringan jalan dari DEMNAS digunakan untuk mempengaruhi
+                estimasi waktu tempuh.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Library Python dan WebGIS -->
+      <!-- Section: Library Python dan WebGIS -->
+      <div class="max-w-6xl mx-auto mt-16 px-4">
+        <h3 class="text-2xl font-bold text-sky-600 mb-6 text-center">
+          Library yang Digunakan
+        </h3>
+        <div class="grid md:grid-cols-2 gap-10">
+          <!-- Kolom Python -->
+          <div>
+            <h4 class="text-lg font-semibold text-sky-700 mb-3">
+              Python untuk Analisis Spasial:
+            </h4>
+            <ul class="list-disc pl-5 text-gray-700 space-y-1">
+              <li>
+                <span class="font-semibold text-green-600">GeoPandas</span> –
+                Membaca dan mengolah data spasial (vektor).
+              </li>
+              <li>
+                <span class="font-semibold text-yellow-600">Shapely</span> –
+                Analisis geometri spasial (misalnya titik dalam poligon,
+                pemotongan geometri).
+              </li>
+              <li>
+                <span class="font-semibold text-orange-600">NetworkX</span> –
+                Analisis jaringan jalan menggunakan graf.
+              </li>
+              <li>
+                <span class="font-semibold text-gray-700">OSMnx</span> –
+                Mendapatkan data jaringan jalan dari OpenStreetMap.
+              </li>
+              <li>
+                <span class="font-semibold text-green-700">Rasterio</span> –
+                Membaca data raster, seperti slope dari DEMNAS.
+              </li>
+              <li>
+                <span class="font-semibold text-blue-700">Rasterstats</span> –
+                Mengambil nilai raster pada titik atau poligon tertentu.
+              </li>
+              <li>
+                <span class="font-semibold text-purple-700">NumPy</span> –
+                Perhitungan numerik yang efisien.
+              </li>
+              <li>
+                <span class="font-semibold text-pink-600">Pandas</span> –
+                Manipulasi data tabular, seperti join dan filtering.
+              </li>
+              <li>
+                <span class="font-semibold text-sky-600">Matplotlib</span> –
+                Visualisasi data spasial dalam bentuk grafik.
+              </li>
+              <li>
+                <span class="font-semibold text-green-500">Folium</span> –
+                Visualisasi data interaktif berbasis leaflet.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Kolom WebGIS -->
+          <div>
+            <h4 class="text-lg font-semibold text-sky-700 mb-3">
+              Library untuk WebGIS & Deployment:
+            </h4>
+            <ul class="list-disc pl-5 text-gray-700 space-y-1">
+              <li>
+                <span class="font-semibold text-blue-600">Mapbox GL JS</span> –
+                Visualisasi spasial interaktif di browser.
+              </li>
+              <li>
+                <span class="font-semibold text-cyan-600">Tailwind CSS</span> –
+                Styling antarmuka yang modern dan responsif.
+              </li>
+              <li>
+                <span class="font-semibold text-black">Vercel</span> – Platform
+                untuk hosting dan deployment WebGIS secara cepat dan gratis.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Proses Data Gambar -->
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-2xl font-bold text-sky-600 mb-6 text-center">
+          Tahapan Proses Data
+        </h3>
+      </div>
+
+      <!-- Section: Final WebGIS -->
+      <div class="max-w-6xl mx-auto text-center mt-16">
+        <h3 class="text-2xl font-bold text-sky-600 mb-4">
+          Visualisasi Akhir WebGIS
+        </h3>
+        <p class="text-gray-700 mb-8">
+          Semua hasil analisis ditampilkan dalam WebGIS interaktif untuk
+          memudahkan eksplorasi spasial dan mendukung pengambilan keputusan
+          berbasis data.
+        </p>
+        <a
+          href="#maps"
+          onclick="showPage('maps')"
+          class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition"
+        >
+          Start Explore Map
+        </a>
+      </div>
+    </div>
+
+    <!-- Map Container -->
+    <div id="maps" class="hidden w-full" style="height: 100dvh">
+      <!-- Judul dalam peta -->
+      <div
+        id="map-title"
+        class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 bg-white/70 backdrop-blur-md px-4 py-2 rounded-md shadow-md text-center"
+      >
+        <h2 class="text-base sm:text-lg md:text-xl font-semibold text-sky-700">
+          WEBGIS 3D dengan Three JS
+        </h2>
+      </div>
+
+      <div id="map" class="w-full" style="height: 100dvh"></div>
+    </div>
+
+    <!-- Script to initialize -->
+    <script>
+      let isCollapsed = false;
+
+      function isMobileOrTablet() {
+        return window.innerWidth <= 768; // Sesuaikan threshold (768px untuk mobile/tablet)
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const togglePath = document.getElementById("togglePath");
+        const logo = document.getElementById("logo");
+        const navMenu = document.getElementById("navMenu");
+
+        if (isMobileOrTablet()) {
+          // Untuk Mobile & Tablet ➔ langsung hide/show sidebar full
+          if (sidebar.classList.contains("hidden")) {
+            sidebar.classList.remove("hidden");
+            togglePath.setAttribute("d", "M15 19l-7-7 7-7"); // Panah kiri
+          } else {
+            sidebar.classList.add("hidden");
+            togglePath.setAttribute("d", "M9 5l7 7-7 7"); // Panah kanan
+          }
+        } else {
+          // Untuk Desktop ➔ Collapsing seperti biasa
+          if (isCollapsed) {
+            sidebar.classList.remove("w-10");
+            sidebar.classList.add("w-64");
+            logo.classList.remove("hidden");
+            navMenu.classList.remove("hidden");
+            togglePath.setAttribute("d", "M15 19l-7-7 7-7"); // Panah kiri
+            isCollapsed = false;
+          } else {
+            sidebar.classList.remove("w-64");
+            sidebar.classList.add("w-10");
+            logo.classList.add("hidden");
+            navMenu.classList.add("hidden");
+            togglePath.setAttribute("d", "M9 5l7 7-7 7"); // Panah kanan
+            isCollapsed = true;
+          }
+        }
+      }
+
+      function showPage(page) {
+        // Sembunyikan semua div
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("geo-ai").classList.add("hidden");
+        document.getElementById("maps").classList.add("hidden");
+
+        // Tampilkan div yang dipilih
+        document.getElementById(page).classList.remove("hidden");
+
+        // Kalau maps yang dibuka, paksa resize
+        if (page === "maps" && map) {
+          map.resize();
+        }
+      }
+
+      // Set default tampilkan Home
+      showPage("home");
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { PCDLoader } from "three/addons/loaders/PCDLoader.js";
+
+      function initThreeJS(containerId, pcdFile) {
+        const container = document.getElementById(containerId);
+
+        const width = 500; // contoh: lebar container (px)
+        const height = 400; // tinggi container (px)
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(13, width / height, 1, 100);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(width, height);
+        renderer.setClearColor(0xffffff, 1);
+        container.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        const light = new THREE.AmbientLight(0xffffff, 1.5);
+        scene.add(light);
+
+        const gridHelper = new THREE.GridHelper(10, 10);
+        scene.add(gridHelper);
+
+        const axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+
+        const loader = new PCDLoader();
+        loader.load(
+          pcdFile,
+          function (points) {
+            scene.add(points);
+            const bbox = new THREE.Box3().setFromObject(points);
+            const center = bbox.getCenter(new THREE.Vector3());
+
+            points.position.x -= center.x;
+            points.position.y -= center.y;
+            points.position.z -= center.z;
+
+            points.rotation.x = Math.PI / 2;
+
+            // Atur kamera menghadap ke pusat objek
+            camera.position.set(0, 0, 5);
+            camera.lookAt(0, 0, 0);
+
+            // Tambahkan axis dan grid helper
+            const axesHelper = new THREE.AxesHelper(1);
+            scene.add(axesHelper);
+            const gridHelper = new THREE.GridHelper(5, 10);
+            scene.add(gridHelper);
+          },
+          (xhr) => {
+            console.log(
+              `Loading: ${((xhr.loaded / xhr.total) * 100).toFixed(2)}%`
+            );
+          },
+          (error) => {
+            console.error("Error loading PCD:", error);
+          }
+        );
+
+        camera.position.z = 5;
+
+        function animate() {
+          requestAnimationFrame(animate);
+          scene.rotation.y += 0.005; // Rotasi otomatis
+          controls.update();
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener("resize", () => {
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height);
+        });
+      }
+      initThreeJS("threejs-container", "data/model.pcd");
+      initThreeJS("threejs-container-2", "data/model.pcd");
+      initThreeJS("threejs-container-3", "data/model-2.pcd");
+      initThreeJS("threejs-container-4", "data/model-iphone.pcd");
+    </script>
+    <script type="module">
+      import * as THREE from "three";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+
+      const map = new maplibregl.Map({
+        container: "map",
+        style:
+          "https://api.maptiler.com/maps/satellite/style.json?key=5FopqXUSTTyjJqYWINZa",
+        zoom: 18,
+        center: [127.134817, -3.6600476],
+        pitch: 60,
+        canvasContextAttributes: { antialias: true }, // create the gl context with MSAA antialiasing, so custom layers are antialiased
+      });
+
+      // parameters to ensure the model is georeferenced correctly on the map
+      const modelOrigin = [127.134817, -3.6600476];
+      const modelAltitude = 4;
+      const modelRotate = [Math.PI / 2, 0, 0];
+
+      const modelAsMercatorCoordinate =
+        maplibregl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude);
+
+      // transformation parameters to position, rotate and scale the 3D model onto the map
+      const modelTransform = {
+        translateX: modelAsMercatorCoordinate.x,
+        translateY: modelAsMercatorCoordinate.y,
+        translateZ: modelAsMercatorCoordinate.z,
+        rotateX: modelRotate[0],
+        rotateY: modelRotate[1],
+        rotateZ: modelRotate[2],
+        /* Since our 3D model is in real world meters, a scale transform needs to be
+         * applied since the CustomLayerInterface expects units in MercatorCoordinates.
+         */
+        scale: modelAsMercatorCoordinate.meterInMercatorCoordinateUnits(),
+      };
+
+      // configuration of the custom layer for a 3D model per the CustomLayerInterface
+      const customLayer = {
+        id: "3d-model",
+        type: "custom",
+        renderingMode: "3d",
+        onAdd(map, gl) {
+          this.camera = new THREE.Camera();
+          this.scene = new THREE.Scene();
+
+          // create two three.js lights to illuminate the model
+          const directionalLight = new THREE.DirectionalLight(0xffffff);
+          directionalLight.position.set(0, 100, 0).normalize();
+          this.scene.add(directionalLight);
+
+          const directionalLight2 = new THREE.DirectionalLight(0xffffff);
+          directionalLight2.position.set(0, 0, 100).normalize();
+          this.scene.add(directionalLight2);
+
+          // use the three.js GLTF loader to add the 3D model to the three.js scene
+          // const loader = new GLTFLoader();
+          // loader.load("data/model3D_Mapflow_2.gltf", (gltf) => {
+          //   this.scene.add(gltf.scene);
+          // });
+          const loader = new GLTFLoader();
+
+          function getRandomBuildingColor() {
+            const palette = [
+              0xa0522d, // sienna / bata merah
+              0x8b0000, // merah tua
+              0xcd853f, // peru / coklat muda
+              0x808080, // abu-abu
+              0xd3d3d3, // abu terang
+              0xf5f5f5, // putih pudar
+              0xc0c0c0, // silver
+            ];
+            return palette[Math.floor(Math.random() * palette.length)];
+          }
+
+          // loader.load("data/model3D_Mapflow_2.gltf", (gltf) => {
+          //   gltf.scene.traverse((node) => {
+          //     if (node.isMesh) {
+          //       node.material = new THREE.MeshStandardMaterial({
+          //         color: getRandomBuildingColor(),
+          //         roughness: 0.8,
+          //         metalness: 0.2,
+          //       });
+          //     }
+          //   });
+          //   this.scene.add(gltf.scene);
+          // });
+          loader.load("data/model3D.gltf", (gltf) => {
+            gltf.scene.traverse((node) => {
+              if (node.isMesh) {
+                node.material = new THREE.MeshStandardMaterial({
+                  color: getRandomBuildingColor(),
+                  roughness: 0.8,
+                  metalness: 0.2,
+                });
+              }
+            });
+
+            this.scene.add(gltf.scene);
+          });
+
+          this.map = map;
+
+          // use the MapLibre GL JS map canvas for three.js
+          this.renderer = new THREE.WebGLRenderer({
+            canvas: map.getCanvas(),
+            context: gl,
+            antialias: true,
+          });
+
+          this.renderer.autoClear = false;
+        },
+        render(gl, args) {
+          const rotationX = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(1, 0, 0),
+            modelTransform.rotateX
+          );
+          const rotationY = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(0, 1, 0),
+            modelTransform.rotateY
+          );
+          const rotationZ = new THREE.Matrix4().makeRotationAxis(
+            new THREE.Vector3(0, 0, 1),
+            modelTransform.rotateZ
+          );
+
+          const m = new THREE.Matrix4().fromArray(
+            args.defaultProjectionData.mainMatrix
+          );
+          const l = new THREE.Matrix4()
+            .makeTranslation(
+              modelTransform.translateX,
+              modelTransform.translateY,
+              modelTransform.translateZ
+            )
+            .scale(
+              new THREE.Vector3(
+                modelTransform.scale,
+                -modelTransform.scale,
+                modelTransform.scale
+              )
+            )
+            .multiply(rotationX)
+            .multiply(rotationY)
+            .multiply(rotationZ);
+
+          // Alternatively, you can use this API to get the correct model matrix.
+          // It will work regardless of current projection.
+          // Also see the example "globe-3d-model.html".
+          //
+          // const modelMatrix = args.getMatrixForModel(modelOrigin, modelAltitude);
+          // const m = new THREE.Matrix4().fromArray(matrix);
+          // const l = new THREE.Matrix4().fromArray(modelMatrix);
+
+          this.camera.projectionMatrix = m.multiply(l);
+          this.renderer.resetState();
+          this.renderer.render(this.scene, this.camera);
+          this.map.triggerRepaint();
+        },
+      };
+
+      map.getCanvas().addEventListener("mousemove", (event) => {
+        const canvasRect = map.getCanvas().getBoundingClientRect();
+        mouse.x =
+          ((event.clientX - canvasRect.left) / canvasRect.width) * 2 - 1;
+        mouse.y =
+          -((event.clientY - canvasRect.top) / canvasRect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, this.camera);
+        const intersects = raycaster.intersectObjects(
+          this.scene.children,
+          true
+        );
+
+        if (intersects.length > 0) {
+          const selected = intersects[0].object;
+          const data = selected.userData;
+
+          if (data) {
+            tooltip.innerHTML = `
+        <strong>Bangunan</strong><br>
+        Tinggi: ${data.height}<br>
+        NIB: ${data.nib}
+      `;
+            tooltip.style.left = `${event.clientX + 10}px`;
+            tooltip.style.top = `${event.clientY + 10}px`;
+            tooltip.style.display = "block";
+          }
+        } else {
+          tooltip.style.display = "none";
+        }
+      });
+
+      map.addControl(
+        new maplibregl.NavigationControl({ showCompass: true }),
+        "top-right"
+      );
+
+      map.addControl(
+        new maplibregl.ScaleControl({
+          maxWidth: 100,
+          unit: "metric",
+        }),
+        "bottom-right"
+      );
+
+      map.on("style.load", () => {
+        map.addLayer(customLayer);
+      });
+    </script>
+  </body>
+</html>
