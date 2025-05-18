@@ -58,47 +58,29 @@
           onclick="showPage('home')"
           class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
         >
-          <svg
-            class="w-5 h-5 text-sky-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M3 9l9-7 9 7v11a2 2 0 01-2 2h-4a2 2 0 01-2-2V12H9v8a2 2 0 01-2 2H3a2 2 0 01-2-2V9z"
-            />
-          </svg>
+          <img src="assets/home.png" class="w-5 h-5" alt="Home Icon" />
           <span class="menu-text">Home</span>
         </button>
         <button
           onclick="showPage('geo-ai')"
           class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
         >
-          <svg
-            class="w-5 h-5 text-sky-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M9 17v-6h13v6m-6-6V5h-7v6h7zm6 6v-6h-7v6h7z" />
-          </svg>
+          <img
+            src="assets/geoai-icon.png"
+            class="w-5 h-5 rounded-full"
+            alt="Home Icon"
+          />
           <span class="menu-text">GEO-AI 3D</span>
         </button>
         <button
           onclick="showPage('maps')"
           class="menu-btn flex items-center space-x-3 px-4 py-2 text-gray-700 bg-white hover:bg-indigo-100 rounded-xl border border-gray-200 transition font-medium shadow-sm"
         >
-          <svg
-            class="w-5 h-5 text-sky-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M1 6h2l2 14h12l2-14h2M5 6l2 14m4-14l2 14m4-14l2 14" />
-          </svg>
+          <img
+            src="assets/logo-map.webp"
+            class="w-5 h-5 rounded-full"
+            alt="Home Icon"
+          />
           <span class="menu-text">WEBGIS 3D</span>
         </button>
       </nav>
@@ -224,265 +206,6 @@
             <div id="threejs-container-4" class="w-full h-[400px]"></div>
           </div>
         </div>
-      </div>
-
-      <div class="max-w-6xl mx-auto text-center space-y-6">
-        <h3 class="text-2xl font-bold text-sky-600">Hasil Analisis Pengolahan</h3>
-        <p class="text-gray-700 max-w-3xl mx-auto">
-          Bisa tulis disini yaaa
-        </p>
-        <img
-          src="assets/geoai.jpg"
-          alt="geoai"
-          class="w-1/2 mx-auto"
-        />
-      </div>
-
-      <!-- Section: Data dan Metode -->
-      <div class="max-w-6xl mx-auto space-y-8">
-        <h3 class="text-2xl font-bold text-sky-600 text-center">
-          Data dan Metode
-        </h3>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Persebaran Fasilitas Kesehatan -->
-          <div
-            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
-          >
-            <div
-              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-sky-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9zM8 21h8"
-                />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-sky-600 font-semibold text-lg mb-2">
-                Persebaran Fasilitas Kesehatan
-              </h4>
-              <p class="text-gray-700 text-sm">
-                Identifikasi lokasi faskes sebagai tujuan utama analisis
-                aksesibilitas.
-              </p>
-            </div>
-          </div>
-
-          <!-- Data Jaringan Jalan -->
-          <div
-            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
-          >
-            <div
-              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-sky-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-sky-600 font-semibold text-lg mb-2">
-                Data Jaringan Jalan
-              </h4>
-              <p class="text-gray-700 text-sm">
-                Jaringan jalan dikonversi menjadi graph untuk analisis rute
-                terpendek menggunakan algoritma Dijkstra.
-              </p>
-            </div>
-          </div>
-
-          <!-- Populasi Penduduk -->
-          <div
-            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
-          >
-            <div
-              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-sky-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 20h5v-2a4 4 0 00-5-4h-1M9 20H4v-2a4 4 0 015-4h1M12 4a4 4 0 11-8 0 4 4 0 018 0zm8 4a4 4 0 11-8 0 4 4 0 018 0z"
-                />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-sky-600 font-semibold text-lg mb-2">
-                Populasi Penduduk
-              </h4>
-              <p class="text-gray-700 text-sm">
-                Data populasi digunakan untuk memperhitungkan beban akses jalan
-                dan kapasitas fasilitas kesehatan.
-              </p>
-            </div>
-          </div>
-
-          <!-- Data DEMNAS (Slope) -->
-          <div
-            class="flex items-start space-x-4 bg-white p-6 rounded-xl shadow hover:shadow-2xl transition"
-          >
-            <div
-              class="w-16 h-16 flex items-center justify-center rounded-full bg-indigo-100"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-8 h-8 text-sky-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 17l6-6 4 4 8-8"
-                />
-              </svg>
-            </div>
-            <div>
-              <h4 class="text-sky-600 font-semibold text-lg mb-2">
-                Data DEMNAS (Slope)
-              </h4>
-              <p class="text-gray-700 text-sm">
-                Nilai kemiringan jalan dari DEMNAS digunakan untuk mempengaruhi
-                estimasi waktu tempuh.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section: Library Python dan WebGIS -->
-      <!-- Section: Library Python dan WebGIS -->
-      <div class="max-w-6xl mx-auto mt-16 px-4">
-        <h3 class="text-2xl font-bold text-sky-600 mb-6 text-center">
-          Library yang Digunakan
-        </h3>
-        <div class="grid md:grid-cols-2 gap-10">
-          <!-- Kolom Python -->
-          <div>
-            <h4 class="text-lg font-semibold text-sky-700 mb-3">
-              Python untuk Analisis Spasial:
-            </h4>
-            <ul class="list-disc pl-5 text-gray-700 space-y-1">
-              <li>
-                <span class="font-semibold text-green-600">GeoPandas</span> –
-                Membaca dan mengolah data spasial (vektor).
-              </li>
-              <li>
-                <span class="font-semibold text-yellow-600">Shapely</span> –
-                Analisis geometri spasial (misalnya titik dalam poligon,
-                pemotongan geometri).
-              </li>
-              <li>
-                <span class="font-semibold text-orange-600">NetworkX</span> –
-                Analisis jaringan jalan menggunakan graf.
-              </li>
-              <li>
-                <span class="font-semibold text-gray-700">OSMnx</span> –
-                Mendapatkan data jaringan jalan dari OpenStreetMap.
-              </li>
-              <li>
-                <span class="font-semibold text-green-700">Rasterio</span> –
-                Membaca data raster, seperti slope dari DEMNAS.
-              </li>
-              <li>
-                <span class="font-semibold text-blue-700">Rasterstats</span> –
-                Mengambil nilai raster pada titik atau poligon tertentu.
-              </li>
-              <li>
-                <span class="font-semibold text-purple-700">NumPy</span> –
-                Perhitungan numerik yang efisien.
-              </li>
-              <li>
-                <span class="font-semibold text-pink-600">Pandas</span> –
-                Manipulasi data tabular, seperti join dan filtering.
-              </li>
-              <li>
-                <span class="font-semibold text-sky-600">Matplotlib</span> –
-                Visualisasi data spasial dalam bentuk grafik.
-              </li>
-              <li>
-                <span class="font-semibold text-green-500">Folium</span> –
-                Visualisasi data interaktif berbasis leaflet.
-              </li>
-            </ul>
-          </div>
-
-          <!-- Kolom WebGIS -->
-          <div>
-            <h4 class="text-lg font-semibold text-sky-700 mb-3">
-              Library untuk WebGIS & Deployment:
-            </h4>
-            <ul class="list-disc pl-5 text-gray-700 space-y-1">
-              <li>
-                <span class="font-semibold text-blue-600">Mapbox GL JS</span> –
-                Visualisasi spasial interaktif di browser.
-              </li>
-              <li>
-                <span class="font-semibold text-cyan-600">Tailwind CSS</span> –
-                Styling antarmuka yang modern dan responsif.
-              </li>
-              <li>
-                <span class="font-semibold text-black">Vercel</span> – Platform
-                untuk hosting dan deployment WebGIS secara cepat dan gratis.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section: Proses Data Gambar -->
-      <div class="max-w-6xl mx-auto">
-        <h3 class="text-2xl font-bold text-sky-600 mb-6 text-center">
-          Tahapan Proses Data
-        </h3>
-      </div>
-
-      <!-- Section: Final WebGIS -->
-      <div class="max-w-6xl mx-auto text-center mt-16">
-        <h3 class="text-2xl font-bold text-sky-600 mb-4">
-          Visualisasi Akhir WebGIS
-        </h3>
-        <p class="text-gray-700 mb-8">
-          Semua hasil analisis ditampilkan dalam WebGIS interaktif untuk
-          memudahkan eksplorasi spasial dan mendukung pengambilan keputusan
-          berbasis data.
-        </p>
-        <a
-          href="#maps"
-          onclick="showPage('maps')"
-          class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition"
-        >
-          Start Explore Map
-        </a>
       </div>
     </div>
 
@@ -651,7 +374,6 @@
     <script type="module">
       import * as THREE from "three";
       import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-
 
       const map = new maplibregl.Map({
         container: "map",
